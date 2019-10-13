@@ -6,16 +6,16 @@ import { SelectionBox } from './selectionBox.js'
 import { eq } from './utils.js'
 
 export class Mouse {
-  cursor: Point
+  cursor: Cursor
   eventQueue: Array<MouseEvent>
   game: Game
   leftDownAt?: Point
-  rightDownAt?: Point
   leftUpAt?: Point
+  rightDownAt?: Point
   rightUpAt?: Point
 
   constructor(game: Game) {
-    this.cursor = new Point(0, 0)
+    this.cursor = new Cursor(new Point(0, 0))
     this.eventQueue = new Array()
     this.game = game
     this.bind()
@@ -77,7 +77,7 @@ export class Mouse {
   }
 
   updateCursor(point: Point) {
-    this.cursor = point
+    this.cursor.position = point
   }
 
   leftDown(point: Point) {
@@ -100,6 +100,9 @@ export class Mouse {
   }
 
   rightUp(point: Point) {
+    if (this.rightDownAt) {
+      this.rightClick(point)
+    }
     this.rightDownAt = undefined
     this.rightUpAt = point
   }
@@ -111,8 +114,6 @@ export class Mouse {
       console.log('|x| |')
     } else if (this.rightDownAt) {
       console.log('| |x|')
-    } else {
-      console.log('| | |')
     }
   }
 
@@ -120,15 +121,7 @@ export class Mouse {
     console.log('Mouse left click', point)
     this.updateCursor(point)
 
-    const thing = this.game.world.findThingAt(point)
-
-    if (thing) {
-      this.game.selected = [thing]
-      thing.select()
-    } else {
-      this.game.selected.forEach(thing => thing.deselect())
-      this.game.selected = []
-    }
+    this.game.makePointSelection(point)
   }
 
   rightClick(point: Point) {
@@ -136,9 +129,9 @@ export class Mouse {
     this.updateCursor(point)
 
     if (this.game.selected.length > 0) {
-      this.game.world.create(new Box(point, 10, 10, 'grey'))
       this.game.selected.forEach(thing => {
-        thing.orders.push(new Order('move', point))
+        // thing.orders.push(new Order('move', point))
+        thing.orders = [new Order('move', point)]
       })
     }
   }
@@ -149,5 +142,19 @@ export class Mouse {
 
   screenToCanvas(point: Point) {
     return new Point(point.x * 2, point.y * 2)
+  }
+}
+
+export class Cursor {
+  constructor(public position: Point) {}
+
+  draw(anticipation: number, context: CanvasRenderingContext2D) {
+    const region = new Path2D()
+    region.moveTo(this.position.x, this.position.y)
+    region.lineTo(this.position.x, this.position.y + 20)
+    region.lineTo(this.position.x + 20, this.position.y)
+    region.closePath()
+    context.fillStyle = 'white'
+    context.fill(region)
   }
 }

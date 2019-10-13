@@ -1,44 +1,87 @@
-import { Point } from './point.js'
-import { Canvas } from './canvas.js'
-import { World } from './world.js'
 import { Box } from './box.js'
-import { Mouse } from './mouse.js'
+import { Canvas } from './canvas.js'
+import { Cursor, Mouse } from './mouse.js'
 import { Keyboard } from './keyboard.js'
-import { SelectionBox } from './selectionBox.js'
+import { Point } from './point.js'
 import { Rectangle } from './rectangle.js'
+import { SelectionBox } from './selectionBox.js'
+import { World } from './world.js'
 
 export class Game {
-  time: number
-  lag: number
   canvas: Canvas
-  world: World
-  selected: Array<Box>
-  mouse: Mouse
   keyboard: Keyboard
+  lag: number
+  mouse: Mouse
+  selected: Array<Box>
   selectionBox?: SelectionBox
+  time: number
+  uiLayer: Canvas
+  world: World
+  pausedAt?: Date
 
   constructor() {
-    this.time = this.now()
-    this.lag = 0
     this.canvas = new Canvas()
-    this.world = new World()
-    this.selected = new Array()
+    this.keyboard = new Keyboard(this)
+    this.lag = 0
     this.mouse = new Mouse(this)
-    this.keyboard = new Keyboard()
+    this.selected = new Array()
+    this.time = this.now()
+    this.uiLayer = new Canvas()
+    this.world = new World()
 
-    this.world.create(
-      new Box(
-        new Point(this.canvas.width / 2, this.canvas.height / 2),
-        100,
-        100,
-        'grey',
-      ),
+    const box = new Box(
+      new Point(this.canvas.width / 2, this.canvas.height / 2),
+      100,
+      100,
+      'grey',
     )
+    box.selectable = true
+    this.world.create(box)
 
     window.requestAnimationFrame(() => this.play())
   }
 
+  paused() {
+    return this.pausedAt
+  }
+
+  togglePause() {
+    if (this.paused()) {
+      console.log('UN-PAUSE')
+      this.pausedAt = undefined
+    } else {
+      console.log('PAUSE')
+      this.pausedAt = new Date()
+    }
+  }
+
+  makePointSelection(point: Point) {
+    const thing = this.world.things.find(
+      thing => thing.selectable && thing.occupiesPoint(point),
+    )
+    if (thing) {
+      this.selected.forEach(thing => thing.deselect())
+
+      thing.select()
+      this.selected = [thing]
+    } else {
+      this.selected.forEach(thing => thing.deselect())
+      this.selected = []
+    }
+  }
+
   makeSelection() {
+    this.world.things
+      .filter(
+        thing =>
+          thing.selectable &&
+          this.selectionBox &&
+          this.selectionBox.rect.occupiesRect(thing.perimiter()),
+      )
+      .forEach(thing => {
+        thing.select()
+        this.selected.push(thing)
+      })
     this.selectionBox = undefined
   }
 
@@ -50,14 +93,15 @@ export class Game {
     const now = this.now()
     const dt = now - this.time
     const tick = 16
-
     this.time = now
     this.lag += dt
 
     this.processInput()
 
     while (this.lag >= tick) {
-      this.world.update()
+      if (!this.pausedAt) {
+        this.world.update()
+      }
       this.lag -= tick
     }
 
@@ -65,12 +109,14 @@ export class Game {
   }
 
   render(anticipation: number) {
-    this.canvas.draw(anticipation, this.world, this.selectionBox)
+    this.canvas.draw(anticipation, this.world.things)
+    this.uiLayer.draw(anticipation, [this.mouse.cursor, this.selectionBox])
     window.requestAnimationFrame(() => this.play())
   }
 
   processInput() {
     this.mouse.processEvents()
+    this.keyboard.processEvents()
   }
 
   handleMove(point: Point) {}

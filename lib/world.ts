@@ -15,8 +15,4 @@ export class World {
   create(thing: any) {
     this.things.push(thing)
   }
-
-  findThingAt(point: Point) {
-    return this.things.find(thing => thing.occupiesPoint(point))
-  }
 }

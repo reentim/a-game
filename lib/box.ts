@@ -15,10 +15,11 @@ export class Box extends Thing {
   draw(anticipation: number, context: CanvasRenderingContext2D) {
     super.draw(anticipation, context)
     context.fillRect(
-      this.position.x - this.width / 2 + anticipation * this.velocity.x(),
-      this.position.y - this.height / 2 + anticipation * this.velocity.y(),
-      this.height,
-      this.width,
+      ...(super.perimiter().toCanv() as [number, number, number, number]),
     )
+  }
+
+  select() {
+    super.select()
   }
 }

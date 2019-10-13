@@ -19,12 +19,12 @@ export class Canvas {
   }
 
   // the save, move, reset method is more performant, maybe
-  draw(anticipation: number, world: World, selectionBox?: SelectionBox) {
+  draw(anticipation: number, objects: Array<any>) {
+    // TODO: drawable type
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    world.things.forEach(thing => thing.draw(anticipation, this.context))
-    if (selectionBox) {
-      selectionBox.draw(anticipation, this.context)
-    }
+    objects.forEach(obj => {
+      if (obj) obj.draw(anticipation, this.context)
+    })
   }
 
   resize() {

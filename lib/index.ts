@@ -13,4 +13,4 @@
 
 import { Game } from './game.js'
 
-new Game()
+;(window as any)['g'] = <Game>new Game()
