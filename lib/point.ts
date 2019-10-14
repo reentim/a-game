@@ -18,6 +18,7 @@ export class Triangle {
 
   theta() {
     const acos = Math.acos(this.run() / this.hypotenuse())
+
     return this.rise() < 0 ? 2 * Math.PI - acos : acos
   }
 
