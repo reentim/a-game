@@ -1,7 +1,7 @@
 export class Point {
   constructor(public x: number, public y: number, public z: number = 0) {}
 
-  bearing(point: Point) {
+  direction(point: Point) {
     return new Triangle(this, point).theta()
   }
 
@@ -9,6 +9,7 @@ export class Point {
     return new Triangle(this, point).hypotenuse()
   }
 }
+
 export class Triangle {
   constructor(public origin: Point, public opposite: Point) {}
 

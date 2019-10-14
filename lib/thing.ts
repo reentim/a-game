@@ -11,6 +11,7 @@ export class Thing {
   orders: Array<Order>
   selected: boolean
   mass: number
+  maxAcceleration: number
 
   constructor(
     public position: Point,
@@ -22,16 +23,15 @@ export class Thing {
     private acceleration: Vector,
   ) {
     this.color = color
+    this.mass = 1
+    this.maxAcceleration = 10
     this.movable = false
     this.orders = new Array()
     this.selectable = false
     this.selected = false
     this.subThings = new Array()
     this.velocity = new Vector(0, 0)
-    this.mass = 1
   }
-
-  private maxAcceleration = 10
 
   update() {
     this.orders.forEach(order => {
@@ -89,7 +89,7 @@ export class Thing {
 
   moveTo(point: Point) {
     const line = new Line(this.position, point, 'white')
-    const vector = new Vector(5, this.position.bearing(point))
+    const vector = new Vector(5, this.position.direction(point))
 
     this.subThings.push(line)
     this.subThings.push(new Box(point, 10, 10, 'grey'))
@@ -109,11 +109,11 @@ export class Thing {
     //   ),
     // )
 
-    // this.accelerateTo(new Vector(10, this.bearing(line)), 1)
+    // this.accelerateTo(new Vector(10, this.direction(line)), 1)
 
     // if (!this.occupiesPoint(point)) {
     //   if (line.distance() < this.maxAcceleration) {
-    //     this.accelerateTo(new Vector(10, this.bearing(line)), 1)
+    //     this.accelerateTo(new Vector(10, this.direction(line)), 1)
     //   } else {
     //     this.orders.push(new Order('move', point))
     //   }
@@ -123,11 +123,11 @@ export class Thing {
   accelerateTo(velocity: Vector, rate: number) {
     this.acceleration.direction = velocity.direction
     this.velocity.direction = velocity.direction
-    if (this.velocity.magnitude < velocity.magnitude) {
-      if (this.acceleration.magnitude < this.maxAcceleration) {
-        this.acceleration.magnitude += rate * this.maxAcceleration
+    if (this.velocity.amount < velocity.amount) {
+      if (this.acceleration.amount < this.maxAcceleration) {
+        this.acceleration.amount += rate * this.maxAcceleration
       }
-      this.velocity.magnitude += this.acceleration.magnitude
+      this.velocity.amount += this.acceleration.amount
       console.log('velocity', this.velocity)
     }
   }
