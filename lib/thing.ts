@@ -38,7 +38,13 @@ export class Thing {
       if (order) {
         switch (order.name) {
           case 'move':
-            this.moveTo(order.details)
+            if (order.point) this.moveTo(order.point)
+            break
+          case 'thrust':
+            if (order.details && order.details.direction) {
+              this.velocity = this.velocity.add(new Vector(0.1, Math.PI))
+              break
+            }
         }
       }
     })
@@ -76,31 +82,6 @@ export class Thing {
     this.color = 'grey'
   }
 
-  private bearing = (point: Point) => {
-    // TODO: learn maths
-    if (point.x > this.position.x && point.y > this.position.y) {
-      let opposite = point.x - this.position.x
-      let adjacent = point.y - this.position.y
-      return Math.atan(opposite / adjacent)
-    } else if (point.x > this.position.x && point.y < this.position.y) {
-      let opposite = point.y - this.position.y
-      let adjacent = this.position.x - point.x
-      return Math.atan(opposite / adjacent) + Math.PI / 2
-    } else if (point.x < this.position.x && point.y < this.position.y) {
-      let opposite = point.y - this.position.y
-      let adjacent = point.x - this.position.x
-      return 1.5 * Math.PI - Math.atan(opposite / adjacent)
-    } else {
-      let opposite = point.x - this.position.x
-      let adjacent = point.y - this.position.y
-      return Math.PI / 2 + Math.atan(opposite / adjacent) + 1.5 * Math.PI
-    }
-  }
-
-  private degreeBearing = (point: Point) => {
-    return this.bearing(point) * 180 - 90
-  }
-
   draw(anticipation: number, context: CanvasRenderingContext2D) {
     this.subThings.forEach(thing => thing.draw(anticipation, context))
     context.fillStyle = this.color
@@ -108,13 +89,14 @@ export class Thing {
 
   moveTo(point: Point) {
     const line = new Line(this.position, point, 'white')
-    this.subThings = [line, new Box(point, 10, 10, 'grey')]
+    const vector = new Vector(5, this.position.bearing(point))
 
-    console.log(this.bearing(point))
+    this.subThings.push(line)
+    this.subThings.push(new Box(point, 10, 10, 'grey'))
 
-    this.velocity = new Vector(1, this.bearing(point))
-    console.log('velocity direction', this.velocity.direction)
-    console.log('velocity details', this.velocity.x(), this.velocity.y())
+    console.log(this.velocity)
+    this.velocity = this.velocity.add(vector)
+    console.log(this.velocity)
 
     // this.subThings.push(
     //   new Line(

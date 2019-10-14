@@ -6,6 +6,7 @@ import { Point } from './point.js'
 import { Rectangle } from './rectangle.js'
 import { SelectionBox } from './selectionBox.js'
 import { World } from './world.js'
+import { Order } from './order.js'
 
 export class Game {
   canvas: Canvas
@@ -39,6 +40,14 @@ export class Game {
     this.world.create(box)
 
     window.requestAnimationFrame(() => this.play())
+  }
+
+  arrowLeft() {
+    if (this.selected.length > 0) {
+      this.selected.forEach(thing =>
+        thing.orders.push(new Order('thrust', new Point(0,0), { direction: 'left' })),
+      )
+    }
   }
 
   paused() {
