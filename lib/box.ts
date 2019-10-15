@@ -1,6 +1,6 @@
-import { Thing } from './thing.js'
-import { Point } from './point.js'
-import { Vector } from './vector.js'
+import { Thing } from './thing'
+import { Point } from './point'
+import { Vector } from './vector'
 
 export class Box extends Thing {
   constructor(

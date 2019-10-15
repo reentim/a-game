@@ -1,8 +1,11 @@
 import { Point, Triangle } from './point'
 
 export const NORTH: number = Math.PI / 2
+
 export const SOUTH: number = (3 * Math.PI) / 2
+
 export const EAST: number = Math.PI
+
 export const WEST: number = 0
 
 export class Vector {

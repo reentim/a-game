@@ -1,5 +1,5 @@
-import { Rectangle } from './rectangle.js'
-import { Point } from './point.js'
+import { Rectangle } from './rectangle'
+import { Point } from './point'
 
 export class SelectionBox {
   rect: Rectangle

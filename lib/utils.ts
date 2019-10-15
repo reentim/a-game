@@ -1,5 +1,5 @@
-import { Point } from './point.js'
-import { Rectangle } from './rectangle.js'
+import { Point } from './point'
+import { Rectangle } from './rectangle'
 
 export const eq = (a: Point, b: Point) => a.x == b.x && a.y == b.y
 

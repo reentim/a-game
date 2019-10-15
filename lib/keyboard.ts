@@ -1,4 +1,4 @@
-import { Game } from './game.js'
+import { Game } from './game'
 
 export class Keyboard {
   eventQueue: Array<KeyboardEvent>

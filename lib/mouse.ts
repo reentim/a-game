@@ -1,9 +1,9 @@
-import { Box } from './box.js'
-import { Game } from './game.js'
-import { Order } from './order.js'
-import { Point } from './point.js'
-import { SelectionBox } from './selectionBox.js'
-import { eq } from './utils.js'
+import { Box } from './box'
+import { Game } from './game'
+import { Order } from './order'
+import { Point } from './point'
+import { SelectionBox } from './selectionBox'
+import { eq } from './utils'
 
 export class Mouse {
   cursor: Cursor

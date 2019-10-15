@@ -1,5 +1,5 @@
-import { SelectionBox } from './selectionBox.js'
-import { World } from './world.js'
+import { SelectionBox } from './selectionBox'
+import { World } from './world'
 
 export class Canvas {
   canvas: HTMLCanvasElement

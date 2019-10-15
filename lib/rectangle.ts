@@ -1,5 +1,5 @@
-import { Point } from './point.js'
-import { top, bottom, left, right } from './utils.js'
+import { Point } from './point'
+import { top, bottom, left, right } from './utils'
 
 export class Rectangle {
   constructor(public a: Point, public b: Point) {}

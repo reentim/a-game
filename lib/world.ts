@@ -1,5 +1,5 @@
-import { Point } from './point.js'
-import { Box } from './box.js'
+import { Point } from './point'
+import { Box } from './box'
 
 export class World {
   things: Array<Box>

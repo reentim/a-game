@@ -1,4 +1,4 @@
-import { Point } from './point.js'
+import { Point } from './point'
 
 export class Line {
   constructor(public a: Point, public b: Point, public color: string) {}

@@ -1,9 +1,9 @@
-import { Vector } from './vector.js'
-import { Box } from './box.js'
-import { Order } from './order.js'
-import { Line } from './line.js'
-import { Point } from './point.js'
-import { Rectangle } from './rectangle.js'
+import { Vector } from './vector'
+import { Box } from './box'
+import { Order } from './order'
+import { Line } from './line'
+import { Point } from './point'
+import { Rectangle } from './rectangle'
 
 export class Thing {
   velocity: Vector

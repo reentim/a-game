@@ -1,12 +1,12 @@
-import { Box } from './box.js'
-import { Canvas } from './canvas.js'
-import { Cursor, Mouse } from './mouse.js'
-import { Keyboard } from './keyboard.js'
-import { Point } from './point.js'
-import { Rectangle } from './rectangle.js'
-import { SelectionBox } from './selectionBox.js'
-import { World } from './world.js'
-import { Order } from './order.js'
+import { Box } from './box'
+import { Canvas } from './canvas'
+import { Cursor, Mouse } from './mouse'
+import { Keyboard } from './keyboard'
+import { Point } from './point'
+import { Rectangle } from './rectangle'
+import { SelectionBox } from './selectionBox'
+import { World } from './world'
+import { Order } from './order'
 
 export class Game {
   canvas: Canvas
