@@ -8,8 +8,8 @@ export class World {
     this.things = new Array()
   }
 
-  update() {
-    this.things.forEach(thing => thing.update())
+  update(lag: number) {
+    this.things.forEach(thing => thing.update(lag))
   }
 
   create(thing: any) {

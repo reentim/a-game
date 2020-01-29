@@ -4,6 +4,7 @@ import { Order } from './order'
 import { Line } from './line'
 import { Point } from './point'
 import { Rectangle } from './rectangle'
+import { SOUTH } from './vector'
 
 export class Thing {
   velocity: Vector
@@ -21,6 +22,7 @@ export class Thing {
     public movable: boolean,
     public color: string,
     private acceleration: Vector,
+    public anchored?: boolean,
   ) {
     this.color = color
     this.mass = 1
@@ -33,7 +35,7 @@ export class Thing {
     this.velocity = new Vector(0, 0)
   }
 
-  update() {
+  update(lag: number) {
     this.orders.forEach(order => {
       if (order) {
         switch (order.name) {
@@ -49,8 +51,26 @@ export class Thing {
       }
     })
     this.orders = new Array()
+
+    this.applyGravity(lag)
+
+    console.log(this.velocity)
+
     this.position.x += this.velocity.x()
     this.position.y += this.velocity.y()
+  }
+
+  applyGravity(lag: number) {
+    if (!this.anchored) {
+      if (this.aboveGround()) {
+        const gravityEffect = 9.8 / ((16 * 60) / lag)
+        this.velocity = this.velocity.add(new Vector(gravityEffect, SOUTH * -1))
+      }
+    }
+  }
+
+  aboveGround() {
+    return this.position.y < 1830
   }
 
   perimiter() {

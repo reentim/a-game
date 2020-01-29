@@ -30,14 +30,27 @@ export class Game {
     this.uiLayer = new Canvas()
     this.world = new World()
 
-    const box = new Box(
-      new Point(this.canvas.width / 2, this.canvas.height / 2),
-      100,
-      100,
-      'grey',
-    )
+    const box = new Box(new Point(this.canvas.width / 2, 0), 100, 100, 'Maroon')
     box.selectable = true
     this.world.create(box)
+
+    const grass = new Box(
+      new Point(0, 1900),
+      this.canvas.width * 2,
+      20,
+      'OliveDrab',
+      true,
+    )
+    this.world.create(grass)
+
+    const earth = new Box(
+      new Point(0, 2310),
+      this.canvas.width * 2,
+      800,
+      'SaddleBrown',
+      true,
+    )
+    this.world.create(earth)
 
     window.requestAnimationFrame(() => this.play())
   }
@@ -45,7 +58,9 @@ export class Game {
   arrowLeft() {
     if (this.selected.length > 0) {
       this.selected.forEach(thing =>
-        thing.orders.push(new Order('thrust', new Point(0,0), { direction: 'left' })),
+        thing.orders.push(
+          new Order('thrust', new Point(0, 0), { direction: 'left' }),
+        ),
       )
     }
   }
@@ -109,7 +124,7 @@ export class Game {
 
     while (this.lag >= tick) {
       if (!this.pausedAt) {
-        this.world.update()
+        this.world.update(this.lag)
       }
       this.lag -= tick
     }
