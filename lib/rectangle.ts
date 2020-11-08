@@ -12,6 +12,14 @@ export class Rectangle {
     return new Point(left([this.a, this.b]).x, top([this.a, this.b]).y)
   }
 
+  bottomLeft() {
+    return new Point(left([this.a, this.b]).x, top([this.a, this.b]).y + this.height())
+  }
+
+  topRight() {
+    return new Point(left([this.a, this.b]).x + this.width(), top([this.a, this.b]).y)
+  }
+
   bottomRight() {
     return new Point(right([this.a, this.b]).x, bottom([this.a, this.b]).y)
   }
@@ -38,16 +46,15 @@ export class Rectangle {
     return [this.a.x, this.a.y, this.width(), this.height()]
   }
 
-  occupiesRect(maybeOccupied: Rectangle) {
+  occupies(other: Rectangle) {
     const topLeft = this.topLeft()
     const bottomRight = this.bottomRight()
-    const otherTopLeft = maybeOccupied.topLeft()
-    const otherBottomRight = maybeOccupied.bottomRight()
+    const otherTopLeft = other.topLeft()
+    const otherBottomRight = other.bottomRight()
 
     return (
-      Math.min(topLeft.x, topLeft.y) <
-        Math.min(otherTopLeft.x, otherTopLeft.y) ||
-      Math.max(topLeft.x, topLeft.y) > Math.min(otherTopLeft.x, otherTopLeft.y)
+      (bottomRight.x > otherTopLeft.x && bottomRight.y > otherTopLeft.y ) &&
+      (topLeft.x < otherBottomRight.x && topLeft.y < otherBottomRight.y )
     )
   }
 

@@ -85,7 +85,7 @@ export class Game {
         thing =>
           thing.selectable &&
           this.selectionBox &&
-          this.selectionBox.rect.occupiesRect(thing.perimiter()),
+          this.selectionBox.rect.occupies(thing.perimiter()),
       )
       .forEach(thing => {
         thing.select()

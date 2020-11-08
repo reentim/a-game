@@ -9,7 +9,7 @@ export class SelectionBox {
   }
 
   draw(anticipation: number, context: CanvasRenderingContext2D) {
-    context.fillStyle = 'white'
+    context.fillStyle = 'green'
     context.fillRect(...(this.rect.toCanv() as [number, number, number, number]))
     context.clearRect(
       ...(this.rect.shrink(4).toCanv() as [number, number, number, number]),
