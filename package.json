@@ -12,10 +12,11 @@
     "babel-jest": "^24.9.0",
     "cli": "^1.0.1",
     "jest": "^24.9.0",
+    "ts-jest": "^26.4.3",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
     "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^4.2.0"
   },
   "dependencies": {}
 }
