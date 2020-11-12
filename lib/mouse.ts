@@ -130,7 +130,7 @@ export class Mouse {
   }
 
   screenToCanvas(point: Point) {
-    return new Point(point.x * 2, point.y * 2)
+    return new Point(point.x * window.devicePixelRatio, point.y * window.devicePixelRatio)
   }
 }
 
