@@ -9,7 +9,7 @@ export class Box extends Thing {
     public height: number,
     public color: string,
   ) {
-    super(position, width, height, true, true, color, new Vector(0, 0))
+    super(position, width, height, true, true, color)
   }
 
   draw(anticipation: number, context: CanvasRenderingContext2D) {

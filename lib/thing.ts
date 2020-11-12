@@ -11,7 +11,6 @@ export class Thing {
   orders: Array<Order>
   selected: boolean
   mass: number
-  maxAcceleration: number
 
   constructor(
     public position: Point,
@@ -20,11 +19,9 @@ export class Thing {
     public selectable: boolean,
     public movable: boolean,
     public color: string,
-    private acceleration: Vector,
   ) {
     this.color = color
     this.mass = 1
-    this.maxAcceleration = 10
     this.movable = false
     this.orders = new Array()
     this.selectable = false
@@ -94,41 +91,7 @@ export class Thing {
     this.subThings.push(line)
     this.subThings.push(new Box(point, 10, 10, 'grey'))
 
-    console.log(this.velocity)
     this.velocity = this.velocity.add(vector)
     console.log(this.velocity)
-
-    // this.subThings.push(
-    //   new Line(
-    //     this.position,
-    //     new Point(
-    //       this.position.x - this.velocity.x(),
-    //       this.position.y - this.velocity.y(),
-    //     ),
-    //     'red',
-    //   ),
-    // )
-
-    // this.accelerateTo(new Vector(10, this.direction(line)), 1)
-
-    // if (!this.occupiesPoint(point)) {
-    //   if (line.distance() < this.maxAcceleration) {
-    //     this.accelerateTo(new Vector(10, this.direction(line)), 1)
-    //   } else {
-    //     this.orders.push(new Order('move', point))
-    //   }
-    // }
-  }
-
-  accelerateTo(velocity: Vector, rate: number) {
-    this.acceleration.direction = velocity.direction
-    this.velocity.direction = velocity.direction
-    if (this.velocity.amount < velocity.amount) {
-      if (this.acceleration.amount < this.maxAcceleration) {
-        this.acceleration.amount += rate * this.maxAcceleration
-      }
-      this.velocity.amount += this.acceleration.amount
-      console.log('velocity', this.velocity)
-    }
   }
 }

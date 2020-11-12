@@ -56,7 +56,6 @@ export class Mouse {
           break
       }
 
-      this.report()
     })
     this.eventQueue = new Array()
   }
@@ -105,16 +104,6 @@ export class Mouse {
     }
     this.rightDownAt = undefined
     this.rightUpAt = point
-  }
-
-  report() {
-    if (this.leftDownAt && this.rightDownAt) {
-      console.log('|x|x|')
-    } else if (this.leftDownAt) {
-      console.log('|x| |')
-    } else if (this.rightDownAt) {
-      console.log('| |x|')
-    }
   }
 
   leftClick(point: Point) {
