@@ -30,23 +30,17 @@ export class Game {
     this.uiLayer = new Canvas()
     this.world = new World()
 
-    const box = new Box(
-      new Point(this.canvas.width / 2, this.canvas.height / 2),
-      100,
-      100,
-      'grey',
-    )
-    box.selectable = true
-    this.world.create(box)
-
-    const box2 = new Box(
-      new Point(this.canvas.width / 2 - 100, this.canvas.height / 2 - 100),
-      50,
-      50,
-      'grey',
-    )
-    box2.selectable = true
-    this.world.create(box2)
+    for (let n = 0; n < 10; n++) {
+      const size = Math.random() * 200
+      const box = new Box(
+        new Point(Math.random() * this.canvas.width, Math.random() * this.canvas.height),
+        size,
+        size,
+        `rgba(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255},0.75)`
+      )
+      box.selectable = true
+      this.world.create(box)
+    }
 
     window.requestAnimationFrame(() => this.play())
   }

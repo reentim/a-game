@@ -83,13 +83,13 @@ export class Thing {
   select() {
     console.log('selecting')
     this.selected = true
-    this.color = '#ccc'
+    this.color = this.color.replace("0.75", "1")
   }
 
   deselect() {
     console.log('deselecting')
     this.selected = false
-    this.color = 'grey'
+    this.color = this.color.replace("1)", "0.75)")
   }
 
   draw(anticipation: number, context: CanvasRenderingContext2D) {
@@ -98,7 +98,7 @@ export class Thing {
   }
 
   moveTo(point: Point) {
-    const line = new Line(this.position, point, 'white')
+    const line = new Line(this.position, point, 'rgb(100,255,100)')
     const vector = new Vector(1, this.position.direction(point))
 
     this.destination = point
@@ -106,7 +106,7 @@ export class Thing {
     this.subThings = new Array()
 
     this.subThings.push(line)
-    this.subThings.push(new Box(point, 10, 10, 'grey'))
+    this.subThings.push(new Box(point, 10, 10, 'rgb(50,255,50)'))
 
     this.velocity = vector
     console.log(this.velocity)
