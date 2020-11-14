@@ -74,12 +74,17 @@ export class Game {
       thing.select()
       this.selected = [thing]
     } else {
-      this.selected.forEach(thing => thing.deselect())
-      this.selected = []
+      this.deselectAll()
     }
   }
 
+  deselectAll() {
+    this.selected.forEach(thing => thing.deselect())
+    this.selected = []
+  }
+
   makeSelection() {
+    this.deselectAll()
     this.world.things
       .filter(
         thing =>
