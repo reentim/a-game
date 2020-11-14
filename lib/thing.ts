@@ -11,6 +11,7 @@ export class Thing {
   orders: Array<Order>
   selected: boolean
   mass: number
+  destination: Point
 
   constructor(
     public position: Point,
@@ -28,6 +29,7 @@ export class Thing {
     this.selected = false
     this.subThings = new Array()
     this.velocity = new Vector(0, 0)
+    this.destination = new Point(0, 0)
   }
 
   update() {
@@ -45,9 +47,20 @@ export class Thing {
         }
       }
     })
+
+    if (this.occupiesPoint(this.destination)) {
+      this.stop()
+    }
+
     this.orders = new Array()
     this.position.x += this.velocity.x()
     this.position.y += this.velocity.y()
+  }
+
+  stop() {
+    this.subThings = new Array()
+
+    this.velocity = new Vector(0, 0)
   }
 
   perimiter() {
@@ -86,12 +99,16 @@ export class Thing {
 
   moveTo(point: Point) {
     const line = new Line(this.position, point, 'white')
-    const vector = new Vector(5, this.position.direction(point))
+    const vector = new Vector(1, this.position.direction(point))
+
+    this.destination = point
+
+    this.subThings = new Array()
 
     this.subThings.push(line)
     this.subThings.push(new Box(point, 10, 10, 'grey'))
 
-    this.velocity = this.velocity.add(vector)
+    this.velocity = vector
     console.log(this.velocity)
   }
 }

@@ -39,6 +39,15 @@ export class Game {
     box.selectable = true
     this.world.create(box)
 
+    const box2 = new Box(
+      new Point(this.canvas.width / 2 - 100, this.canvas.height / 2 - 100),
+      50,
+      50,
+      'grey',
+    )
+    box2.selectable = true
+    this.world.create(box2)
+
     window.requestAnimationFrame(() => this.play())
   }
 
